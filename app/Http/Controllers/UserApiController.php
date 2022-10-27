@@ -22,12 +22,11 @@ class UserApiController extends Controller
             $uuid = \uniqid();
             return User::create([
                "uuid" => $uuid,
-               "password" => \request("password"),
+               "password" => password_hash(\request("password"), PASSWORD_DEFAULT),
                "email" => \request("email"),
                "fullname" => \request("fullname"),
             ]);
     }
-
     public function update ($user){
         request()->validate([
             "password" => "required",
@@ -39,10 +38,11 @@ class UserApiController extends Controller
         $uuid = \uniqid();
         return User::create([
            "uuid" => $uuid,
-           "password" => \request("password"),
+           "password" => password_hash(\request("password"), PASSWORD_DEFAULT),
            "email" => \request("email"),
-        "fullname" => \request("fullname"),
-    ]);
+           "fullname" => \request("fullname")
+        ]);
+        
 }
 
 

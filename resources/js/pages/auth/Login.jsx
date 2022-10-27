@@ -1,16 +1,23 @@
 import React, { useState } from "react";
 import logo from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
+import { api } from "../../api";
 const Login = () => {
     const navigate = useNavigate();
     const [togglePassword, setTogglePassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
-    const [names, setNames] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const handleSignup = (e) => {
+    const handleSignup = async (e) => {
         e.preventDefault();
+        try {
+            const request = await api.post("/login", { email, password });
+            const response = request.data;
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
     };
     return (
         <div
