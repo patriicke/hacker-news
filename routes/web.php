@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('{reactRoutes}', function () {
+    return view('index'); 
+})->where('reactRoutes', '^((?!api).)*$');

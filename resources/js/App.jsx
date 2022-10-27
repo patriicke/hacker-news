@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./pages/auth/Login";
+import Signup from "./pages/auth/Signup";
+import { HomePage } from "./pages/home/HomePage";
 const App = () => {
     return (
-        <div>
-            <h1 className="text-red-500">Hello World</h1>
-            <h1 className="text-green-500 italic">Hello World</h1>
-            <h1>Hello World</h1>
-            <div>
-                <p>
-                </p>
-            </div>
-        </div>
+        <Router>
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/auth/login" element={<Login />} />
+                <Route path="/auth/signup" element={<Signup />} />
+            </Routes>
+        </Router>
     );
 };
 
