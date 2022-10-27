@@ -1,18 +1,31 @@
 import React, { useState } from "react";
 import logo from "../../assets/logo.png";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { api } from "./../../api";
 import { useEffect } from "react";
 const Signup = () => {
     const navigate = useNavigate();
     const [togglePassword, setTogglePassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
-    const [names, setNames] = useState("");
+    const [fullname, setFullname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const handleSignup = (e) => {
+    const [cpassword, setCpassword] = useState("");
+    const handleSignup = async (e) => {
         e.preventDefault();
+        try {
+            const request = await api.post("/user", {
+                fullname,
+                email,
+                password,
+                cpassword,
+            });
+            const response = request.data;
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
     };
     return (
         <div
@@ -34,8 +47,8 @@ const Signup = () => {
                         Full name
                     </label>
                     <input
-                        value={names}
-                        onChange={(e) => setNames(e.target.value)}
+                        value={fullname}
+                        onChange={(e) => setFullname(e.target.value)}
                         type="text"
                         className=" border-[1px] border-white outline-none p-[8px] bg-transparent w-full rounded-md px-2 text-sm text-gray-300 focus:border-blue-400"
                         placeholder="Your name"
@@ -67,8 +80,8 @@ const Signup = () => {
                             Confirm Password
                         </label>
                         <input
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            value={cpassword}
+                            onChange={(e) => setCpassword(e.target.value)}
                             type={`${togglePassword ? "text" : "password"}`}
                             className=" border-[1px] border-gray-300 outline-none p-[8px] bg-transparent w-full rounded-md px-2 text-gray-300 text-sm focus:border-blue-400"
                             placeholder="Confirm password"

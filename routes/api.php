@@ -14,9 +14,9 @@ use App\Http\Controllers\UserApiController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get("/user", [UserApiController::class, "users"]);
 
-Route::post("/user", [UserApiController::class, "store"]);
+Route::post("/user", [UserApiController::class, "create"]);
+
+// Route::post("/user", [UserApiController::class, "store"]);
 
