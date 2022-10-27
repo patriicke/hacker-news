@@ -12,5 +12,12 @@
     </head>
     <body>
       <div id="root"></div>
+      <p>
+        <?php 
+        if(DB::connection()->getPdo()){
+          echo "Connected to Database successfully";
+        }
+        ?>
+      </p>
     </body>
 </html>
