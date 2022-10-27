@@ -1,7 +1,16 @@
-import React from 'react'
+import React from "react";
+import { api } from "../../api";
 
 export const HomePage = () => {
-  return (
-    <div>HomePage</div>
-  )
-}
+    const getId = async () => {
+        const request = await api.get("/id");
+        const response = request.data;
+        console.log(response);
+    };
+    return (
+        <div>
+            HomePage
+            <button onClick={getId}>click</button>
+        </div>
+    );
+};

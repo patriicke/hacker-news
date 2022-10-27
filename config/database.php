@@ -48,7 +48,7 @@ return [
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'mydb'),
+            'database' => env('DB_DATABASE', 'HACKERNEWS'),
             'username' => env('DB_USERNAME', 'PATRICK'),
             'password' => env('DB_PASSWORD', 'DATAbase@123'),
             'unix_socket' => env('DB_SOCKET', ''),
