@@ -1,16 +1,13 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { api } from "../../api";
-
+import { signout } from "./../../redux/slices/userSlice";
 export const HomePage = () => {
-    const getId = async () => {
-        const request = await api.get("/id");
-        const response = request.data;
-        console.log(response);
-    };
+    const dispatch = useDispatch();
     return (
         <div>
             HomePage
-            <button onClick={getId}>click</button>
+            <button onClick={() => dispatch(signout())}>signout</button>
         </div>
     );
 };

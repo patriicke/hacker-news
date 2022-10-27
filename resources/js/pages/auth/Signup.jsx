@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import logo from "../../assets/logo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { api } from "./../../api";
-import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { signin } from "./../../redux/slices/userSlice";
 const Signup = () => {
-    const navigate = useNavigate();
     const [togglePassword, setTogglePassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
@@ -12,9 +12,13 @@ const Signup = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [cpassword, setCpassword] = useState("");
+    const [invalidP, setInvalidP] = useState(false);
+    const dispatch = useDispatch();
     const handleSignup = async (e) => {
+        setIsLoading(true);
         e.preventDefault();
         try {
+            if (cpassword != password) return setInvalidP(true);
             const request = await api.post("/user", {
                 fullname,
                 email,
@@ -22,9 +26,12 @@ const Signup = () => {
                 cpassword,
             });
             const response = request.data;
-            console.log(response);
+            dispatch(signin({...response}));
         } catch (error) {
             console.log(error);
+            setError(true);
+        } finally {
+            setIsLoading(false);
         }
     };
     return (
@@ -52,6 +59,7 @@ const Signup = () => {
                         type="text"
                         className=" border-[1px] border-white outline-none p-[8px] bg-transparent w-full rounded-md px-2 text-sm text-gray-300 focus:border-blue-400"
                         placeholder="Your name"
+                        required
                     />
                     <label className="block text-md text-gray-300 pb-2 mt-4">
                         Email
@@ -62,6 +70,7 @@ const Signup = () => {
                         type="email"
                         className=" border-[1px] border-white outline-none p-[8px] bg-transparent w-full rounded-md px-2 text-gray-300 text-sm focus:border-blue-400"
                         placeholder="Your email address"
+                        required
                     />
                     <div className="relative">
                         <label className="block text-md text-gray-300 pb-2 mt-4">
@@ -73,6 +82,7 @@ const Signup = () => {
                             type={`${togglePassword ? "text" : "password"}`}
                             className=" border-[1px] border-gray-300 outline-none p-[8px] bg-transparent w-full rounded-md px-2 text-gray-300 text-sm focus:border-blue-400"
                             placeholder="Choose password"
+                            required
                         />
                     </div>
                     <div className="relative">
@@ -81,20 +91,33 @@ const Signup = () => {
                         </label>
                         <input
                             value={cpassword}
-                            onChange={(e) => setCpassword(e.target.value)}
+                            onChange={(e) => {
+                                setCpassword(e.target.value);
+                                setInvalidP(false);
+                            }}
                             type={`${togglePassword ? "text" : "password"}`}
                             className=" border-[1px] border-gray-300 outline-none p-[8px] bg-transparent w-full rounded-md px-2 text-gray-300 text-sm focus:border-blue-400"
                             placeholder="Confirm password"
+                            required
                         />
                     </div>
-                    <p className="text-sm text-red-400 mt-2 text-center">
-                        {error}
-                    </p>
+                    {invalidP && (
+                        <p className="text-sm text-red-400 mt-2 text-center">
+                            Passwords don't match!
+                        </p>
+                    )}
+                    {error && (
+                        <p className="text-sm text-red-400 mt-2 text-center">
+                            Try using valid credentials. Or Login if you have an
+                            account!
+                        </p>
+                    )}
                     <button
                         type="submit"
                         className={`bg-[#0075ff] text-gray-300 w-full p-2 rounded-md mt-5 text-sm`}
+                        disabled={isLoading}
                     >
-                        Create account
+                        {isLoading ? "Loading" : "Create account"}
                     </button>
                     <p className="text-white text-sm text-center mt-3">
                         Already joined?{" "}
@@ -103,15 +126,6 @@ const Signup = () => {
                         </Link>
                     </p>
                 </form>
-                {isLoading && (
-                    <div className="absolute z-10 top-1/2 left-[42%]">
-                        <ThreeCircles
-                            width={100}
-                            height={100}
-                            color="#0075FF"
-                        />
-                    </div>
-                )}
             </div>
         </div>
     );

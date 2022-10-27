@@ -1,22 +1,27 @@
 import React, { useState } from "react";
 import logo from "../../assets/logo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { api } from "../../api";
+import { useDispatch } from "react-redux";
+import { signin, signout } from "./../../redux/slices/userSlice";
 const Login = () => {
-    const navigate = useNavigate();
-    const [togglePassword, setTogglePassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const dispatch = useDispatch();
     const handleSignup = async (e) => {
+        setIsLoading(true);
         e.preventDefault();
         try {
             const request = await api.post("/login", { email, password });
             const response = request.data;
-            console.log(response);
+            if (response == "Invalid email or password.") return setError(true);
+            dispatch(signin(...response));
         } catch (error) {
-            console.log(error);
+            setError(true);
+        } finally {
+            setIsLoading(false);
         }
     };
     return (
@@ -43,6 +48,7 @@ const Login = () => {
                         type="email"
                         className=" border-[1px] border-white outline-none p-[8px] bg-transparent w-full rounded-md px-2 text-gray-300 text-sm focus:border-blue-400"
                         placeholder="Your email address"
+                        required
                     />
 
                     <div className="relative">
@@ -51,20 +57,27 @@ const Login = () => {
                         </label>
                         <input
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            type={`${togglePassword ? "text" : "password"}`}
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+                                setError(false);
+                            }}
+                            type={"password"}
                             className=" border-[1px] border-gray-300 outline-none p-[8px] bg-transparent w-full rounded-md px-2 text-gray-300 text-sm focus:border-blue-400"
                             placeholder="Choose password"
+                            required
                         />
                     </div>
-                    <p className="text-sm text-red-400 mt-2 text-center">
-                        {error}
-                    </p>
+                    {error && (
+                        <p className="text-sm text-red-400 mt-4 text-center">
+                            Invalid Email or Password!
+                        </p>
+                    )}
                     <button
                         type="submit"
                         className={`bg-[#0075ff] text-gray-300 w-full p-2 rounded-md mt-5 text-sm`}
+                        disabled={isLoading}
                     >
-                        Login
+                        {isLoading ? "Loading" : "Login"}
                     </button>
 
                     <p className="text-white text-sm text-center mt-3">
@@ -74,15 +87,6 @@ const Login = () => {
                         </Link>
                     </p>
                 </form>
-                {isLoading && (
-                    <div className="absolute z-10 top-1/2 left-[42%]">
-                        <ThreeCircles
-                            width={100}
-                            height={100}
-                            color="#0075FF"
-                        />
-                    </div>
-                )}
             </div>
         </div>
     );
