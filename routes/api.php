@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserApiController;
 use App\Http\Controllers\UserLoginController;
+use App\Http\Controllers\PostsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,5 +22,5 @@ Route::post("/user", [UserApiController::class, "create"]);
 
 Route::post("/login", [UserLoginController::class, "login"]);
 
-// Route::post("/user", [UserApiController::class, "store"]);
+Route::post("/post", [PostsController::class, "create"]);
 

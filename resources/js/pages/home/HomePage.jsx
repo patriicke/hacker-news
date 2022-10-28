@@ -7,7 +7,7 @@ export const HomePage = () => {
     return (
         <div>
             HomePage
-            <button onClick={() => dispatch(signout())}>signout</button>
+            <button onClick={() => dispatch(signout())} className="bg-red-500 text-white p-1 m-1 rounded-md">Logout</button>
         </div>
     );
 };

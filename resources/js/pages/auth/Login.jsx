@@ -3,7 +3,7 @@ import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 import { api } from "../../api";
 import { useDispatch } from "react-redux";
-import { signin, signout } from "./../../redux/slices/userSlice";
+import { signin } from "./../../redux/slices/userSlice";
 const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
