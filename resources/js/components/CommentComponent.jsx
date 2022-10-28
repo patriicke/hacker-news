@@ -31,7 +31,10 @@ const CommentComponent = () => {
                     .slice(prevCount, count)
                     .map((comment) => {
                         return (
-                            <div className="min-h-10 break-words  flex gap-2 text-[0.9em] border-b-[1px] max-w-full">
+                            <div
+                                className="min-h-10 break-words  flex gap-2 text-[0.9em] border-b-[1px] max-w-full"
+                                key={comment.id}
+                            >
                                 <span className="w-8 p-1">
                                     <img src={Up} alt="up" className="w-full" />
                                 </span>
