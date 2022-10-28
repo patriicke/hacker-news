@@ -14,7 +14,7 @@ class PostsController extends Controller
     public function create(){
         $allPosts = Post::all();
         $allPostsLen = count($allPosts);
-        if($allPostsLen < 500){
+        if($allPostsLen <= 500){
             $base = Http::get("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty");
             for($i= 0; $i < 500; $i++){
                     $exist = Post::where("id", $base[$i])->first();
@@ -41,7 +41,6 @@ class PostsController extends Controller
         }
         return Post::all();
     }
-
     public function getPosts(){
         return Post::all();
     }

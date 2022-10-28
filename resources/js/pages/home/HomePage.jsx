@@ -29,7 +29,6 @@ export const HomePage = () => {
     useEffect(() => {
         getPosts();
     }, []);
-    console.log(posts);
     const hide = (id) => {
         setPosts(
             posts.filter((post) => {
@@ -44,6 +43,21 @@ export const HomePage = () => {
         document.addEventListener("mousedown", clickEvent);
         return () => document.removeEventListener("mousedown", clickEvent);
     }, [showElement]);
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }, [count, prevCount]);
+    const isValidUrl = (urlString) => {
+        var urlPattern = new RegExp(
+            "^(https?:\\/\\/)?" + // validate protocol
+                "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // validate domain name
+                "((\\d{1,3}\\.){3}\\d{1,3}))" + // validate OR ip (v4) address
+                "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // validate port and path
+                "(\\?[;&a-z\\d%_.~+=-]*)?" + // validate query string
+                "(\\#[-a-z\\d_]*)?$",
+            "i"
+        ); // validate fragment locator h-[calc(100vh_-_5rem)]
+        return !!urlPattern.test(urlString);
+    };
     return (
         <div className="w-4/5 m-auto h-screen min-h-screen">
             <div className="h-12 bg-orange-500 flex items-center justify-between p-2">
@@ -94,7 +108,10 @@ export const HomePage = () => {
                 </div>
             </div>
             {current == 0 ? (
-                <div className="bg-yellow-100 bg-opacity-20 p-2 min-h-[calc(100vh_-_5rem)] overscroll-auto flex flex-col gap-3">
+                <div
+                    className="bg-yellow-100 bg-opacity-20 p-2 min-h-[calc(100vh_-_5rem)] 
+                overscroll-auto flex flex-col gap-3"
+                >
                     <table className="w-full">
                         <tbody className="w-full flex flex-col gap-2 ">
                             {posts
@@ -119,24 +136,28 @@ export const HomePage = () => {
                                                 />
                                             </td>
                                             <td className="flex flex-col ">
-                                                <div>
+                                                <div className="flex gap-1">
                                                     <a
-                                                        href={post.url}
+                                                        href={
+                                                            isValidUrl(post.url)
+                                                                ? post.url
+                                                                : `
+                                                        https://news.ycombinator.com/from?site=${post.id}
+                                                        `
+                                                        }
                                                         className="font-semibold text-gray-700"
                                                     >
                                                         {post.title}
                                                     </a>
-                                                    <a
-                                                        href={`https://news.ycombinator.com/from?site=${post?.url}}`}
-                                                    >
-                                                        {
-                                                            // new URL(
-                                                            //     post?.url?.toString()
-                                                            // )
-                                                        }
-                                                        {/* {new URL(post?.url)} */}
-                                                        )
-                                                    </a>
+                                                    {isValidUrl(post.url) ? (
+                                                        <a href={post.url}>
+                                                            {
+                                                                new URL(
+                                                                    post.url
+                                                                ).hostname
+                                                            }
+                                                        </a>
+                                                    ) : null}
                                                 </div>
                                                 <div className="flex gap-[6px]">
                                                     <span>
@@ -189,9 +210,9 @@ export const HomePage = () => {
                                 xmlns="http://www.w3.org/2000/svg"
                             >
                                 <path
-                                    fill-rule="evenodd"
+                                    fillRule="evenodd"
                                     d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
-                                    clip-rule="evenodd"
+                                    clipRule="evenodd"
                                 ></path>
                             </svg>
                             Previous
@@ -213,9 +234,9 @@ export const HomePage = () => {
                                 xmlns="http://www.w3.org/2000/svg"
                             >
                                 <path
-                                    fill-rule="evenodd"
+                                    fillRule="evenodd"
                                     d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                                    clip-rule="evenodd"
+                                    clipRule="evenodd"
                                 ></path>
                             </svg>
                         </button>
