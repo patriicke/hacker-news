@@ -27,6 +27,11 @@ export const HomePage = () => {
     };
     const buttons = ["news", "comments"];
     useEffect(() => {
+        setCurrent(
+            sessionStorage.getItem("current")
+                ? sessionStorage.getItem("current")
+                : 0
+        );
         getPosts();
     }, []);
     const hide = (id) => {
@@ -46,9 +51,6 @@ export const HomePage = () => {
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     }, [count, prevCount]);
-
-    console.log(posts);
-
     const isValidUrl = (urlString) => {
         var urlPattern = new RegExp(
             "^(https?:\\/\\/)?" + // validate protocol
@@ -61,8 +63,9 @@ export const HomePage = () => {
         ); // validate fragment locator h-[calc(100vh_-_5rem)]
         return !!urlPattern.test(urlString);
     };
+
     return (
-        <div className="w-4/5 m-auto h-screen min-h-screen">
+        <div className="w-full md:w-4/5 m-auto h-screen min-h-screen">
             <div className="h-12 bg-orange-500 flex items-center justify-between p-2">
                 <div className="flex gap-3 items-center">
                     <img
@@ -78,7 +81,13 @@ export const HomePage = () => {
                                         className={`hover:text-gray-200 ${
                                             current == index && "text-white"
                                         } font-medium`}
-                                        onClick={() => setCurrent(index)}
+                                        onClick={() => {
+                                            setCurrent(index);
+                                            sessionStorage.setItem(
+                                                "current",
+                                                index
+                                            );
+                                        }}
                                     >
                                         {data}
                                     </button>
@@ -125,7 +134,7 @@ export const HomePage = () => {
                                 .map((post, index) => {
                                     return (
                                         <tr
-                                            className="flex h-10  items-center gap-3 border-b-[1px] border-opacity-50 border-gray-600  text-[0.8em]"
+                                            className="flex min-h-10  items-center gap-3 border-b-[1px] border-opacity-50 border-gray-600  text-[0.8em]"
                                             key={post.id}
                                         >
                                             <td className="font-bold min-w-3">

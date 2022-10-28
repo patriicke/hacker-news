@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->integer("id")->unique();
-            $table->string("by");
-            $table->json("kids");
-            $table->integer("parent");
-            $table->string("text", 10000);
-            $table->string("time");
-            $table->string("comment");
+            $table->string("by")->nullable();
+            $table->json("kids")->nullable();
+            $table->integer("parent")->nullable();
+            $table->string("text", 10000)->nullable();
+            $table->string("time")->nullable();
+            $table->string("type")->nullable();
+            $table->string("title")->nullable();
             $table->timestamps();
         });
     }

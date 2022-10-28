@@ -15,6 +15,7 @@ class Comment extends Model
         "parent",
         "text",
         "time",
-        "comment",
+        "type",
+        "title"
     ];
 }
