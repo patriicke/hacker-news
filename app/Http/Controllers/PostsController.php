@@ -16,9 +16,11 @@ class PostsController extends Controller
         $allPostsLen = count($allPosts);
         if($allPostsLen < 500){
             $base = Http::get("https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty");
-            for($i= $allPostsLen; $i < 500; $i++){
-                $request = Http::get("https://hacker-news.firebaseio.com/v0/item/{$base[$i]}.json?print=pretty");
-                Post::create([
+            for($i= 0; $i < 500; $i++){
+                    $exist = Post::where("id", $base[$i])->first();
+                    if($exist) continue;
+                    $request = Http::get("https://hacker-news.firebaseio.com/v0/item/{$base[$i]}.json?  print=pretty");
+                    Post::create([
                     "id" => $request["id"],
                     "deleted"=> isset($request["deleted"]) ? $request["deleted"] : null,
                     "by" => isset($request["by"])? $request["by"]: null,
@@ -37,6 +39,10 @@ class PostsController extends Controller
                 ]);
             }
         }
+        return Post::all();
+    }
+
+    public function getPosts(){
         return Post::all();
     }
 }

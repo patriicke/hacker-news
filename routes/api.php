@@ -24,3 +24,5 @@ Route::post("/login", [UserLoginController::class, "login"]);
 
 Route::post("/post", [PostsController::class, "create"]);
 
+Route::get("/post", [PostsController::class, "getPosts"]);
+
