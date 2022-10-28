@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string("by");
             $table->json("kids");
             $table->integer("parent");
-            $table->string("text");
+            $table->string("text", 10000);
             $table->string("time");
             $table->string("comment");
             $table->timestamps();

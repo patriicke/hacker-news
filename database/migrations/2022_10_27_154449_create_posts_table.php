@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string("by")->nullable();
             $table->string("type")->nullable();
             $table->string("time")->nullable();
-            $table->string("text", 60000)->nullable();
+            $table->string("text", 10000)->nullable();
             $table->boolean("dead")->nullable();
             $table->string("parent")->nullable();
             $table->string("poll")->nullable();
