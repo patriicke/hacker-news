@@ -46,6 +46,9 @@ export const HomePage = () => {
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     }, [count, prevCount]);
+
+    console.log(posts);
+
     const isValidUrl = (urlString) => {
         var urlPattern = new RegExp(
             "^(https?:\\/\\/)?" + // validate protocol
@@ -150,12 +153,17 @@ export const HomePage = () => {
                                                         {post.title}
                                                     </a>
                                                     {isValidUrl(post.url) ? (
-                                                        <a href={post.url}>
+                                                        <a
+                                                            href={post.url}
+                                                            className="hover:underline"
+                                                        >
+                                                            (
                                                             {
                                                                 new URL(
                                                                     post.url
                                                                 ).hostname
                                                             }
+                                                            )
                                                         </a>
                                                     ) : null}
                                                 </div>
@@ -163,27 +171,33 @@ export const HomePage = () => {
                                                     <span>
                                                         {post.score} points
                                                     </span>
-                                                    <a
-                                                        href={`https://news.ycombinator.com/user?id=${post.by}`}
-                                                    >
-                                                        by {post.by}
-                                                    </a>
-                                                    <a>
+                                                    <span>
+                                                        {"by "}
+                                                        <a
+                                                            href={`https://news.ycombinator.com/user?id=${post.by}`}
+                                                            className="hover:underline"
+                                                        >
+                                                            {post.by}
+                                                        </a>
+                                                    </span>
+                                                    <a className="hover:underline font-medium">
                                                         {calculateDate(
                                                             post.time
                                                         )}{" "}
                                                         ago
                                                     </a>
                                                     <span
-                                                        className="cursor-pointer"
+                                                        className="cursor-pointer hover:underline"
                                                         onClick={() =>
                                                             hide(post.id)
                                                         }
                                                     >
                                                         | hide |
                                                     </span>
-                                                    <span>
-                                                        {post?.kids?.length}{" "}
+                                                    <span className="hover:underline cursor-pointer">
+                                                        {post?.kids?.length
+                                                            ? post?.kids?.length
+                                                            : 0}{" "}
                                                         comments{" "}
                                                     </span>
                                                 </div>

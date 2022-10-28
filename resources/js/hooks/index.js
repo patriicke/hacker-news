@@ -20,13 +20,13 @@ export const calculateDate = (date) => {
                 const months = days / 30;
                 return `${months.toFixed(0)}mo`;
             }
-            return `${days}d`;
+            return `${days} days`;
         }
     } else if (hours != 0) {
-        return `${hours}h`;
+        return `${hours} hours`;
     } else if (minutes != 0) {
-        return `${minutes}m`;
+        return `${minutes} minutes`;
     } else {
-        return `${secs}s`;
+        return `${secs} seconds`;
     }
 };
